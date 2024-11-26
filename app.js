@@ -2,13 +2,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const userRoutes = require('./routes/userRoutes');  // Import user routes
-const productRoutes = require('./routes/productRoutes');  // Import product routes
+const userRoutes = require('./routes/userRoutes');  
+const productRoutes = require('./routes/productRoutes');  
 const cartRoutes = require('./routes/cartRoutes'); 
-const protectedRoutes=require('./routes/protectedroute') // Import cart routes
-const { verifyToken } = require('./middleware/auth');  // JWT verification middleware
+const protectedRoutes=require('./routes/protectedroute')
+const { verifyToken } = require('./middleware/auth'); 
 
-dotenv.config();  // Load environment variables
+dotenv.config();  
 
 const app = express();
 
@@ -19,13 +19,13 @@ mongoose.connect('mongodb://localhost/ecommerce', {
 }).then(() => console.log('Connected to MongoDB'))
   .catch(err => console.log(err));
 
-// Middleware
-app.use(express.json());  // Parse JSON request bodies
+
+app.use(express.json()); 
 
 // Public Routes
-app.use('/api/users', userRoutes);  // User routes for registration, login, etc.
-app.use('/api/products', productRoutes);  // Product routes for CRUD operations
-app.use('/api/cart', verifyToken, cartRoutes);  // Cart routes (protected)
+app.use('/api/users', userRoutes); 
+app.use('/api/products', productRoutes);  
+app.use('/api/cart', verifyToken, cartRoutes);  
 app.use('/api/protected', protectedRoutes);
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
