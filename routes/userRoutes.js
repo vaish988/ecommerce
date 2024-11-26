@@ -12,25 +12,25 @@ router.post('/register', async (req, res) => {
     const { name, email, password, role } = req.body;
 
     try {
-        // Check if the email already exists
+        
         const existingUser = await User.findOne({ email });
         if (existingUser) return res.status(400).json({ message: 'Email already exists' });
 
-        // Hash the password
+       
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Create new user
+       
         const user = new User({
             name,
             email,
             password: hashedPassword,
-            role: role || 'Customer' // Default role is 'Customer'
+            role: role || 'Customer' 
         });
 
-        // Save the user to the database
+      
         await user.save();
 
-        // Respond with success message
+     
         res.status(201).json({ message: 'User registered successfully', user });
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -44,11 +44,11 @@ router.post('/login', async (req, res) => {
         const user = await User.findOne({ email });
         if (!user) return res.status(400).json({ message: 'User not found' });
 
-        // Compare the entered password with the hashed password in the database
+      
         const isMatch = await bcrypt.compare(password, user.password);  
         if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
-        // Generate JWT token
+      
         const token = jwt.sign({ id: user._id, role: user.role, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         res.status(200).json({ token });
