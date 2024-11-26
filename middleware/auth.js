@@ -15,8 +15,8 @@ function verifyToken(req, res, next) {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded; // Add user information to request object
-        next(); // Proceed to the next middleware or route handler
+        req.user = decoded; 
+        next(); 
     } catch (err) {
         res.status(400).json({ message: 'Invalid Token' });
     }
@@ -35,7 +35,7 @@ const isAdmin = async (req, res, next) => {
         if (!user || user.role !== 'Admin') {
             return res.status(403).json({ message: "Admin role required for this action!" });
         }
-        next(); // Proceed to the next middleware or route handler
+        next(); 
     } catch (error) {
         console.error('Authorization error:', error);
         return res.status(500).json({ message: 'Server error' });
@@ -49,7 +49,7 @@ const isVendor = async (req, res, next) => {
         if (!user || user.role !== 'Vendor') {
             return res.status(403).json({ message: "Vendor role required for this action!" });
         }
-        next(); // Proceed to the next middleware or route handler
+        next(); 
     } catch (error) {
         console.error('Authorization error:', error);
         return res.status(500).json({ message: 'Server error' });
@@ -63,7 +63,7 @@ const isCustomer = async (req, res, next) => {
         if (!user || user.role !== 'Customer') {
             return res.status(403).json({ message: "Customer role required for this action!" });
         }
-        next(); // Proceed to the next middleware or route handler
+        next(); 
     } catch (error) {
         console.error('Authorization error:', error);
         return res.status(500).json({ message: 'Server error' });
@@ -82,7 +82,7 @@ const validateProduct = (req, res, next) => {
     if (quantityInStock < 0) {
         return res.status(400).json({ message: 'Product quantity cannot be negative' });
     }
-    next(); // Proceed to the next middleware or route handler
+    next(); 
 };
 
 // Middleware to validate cart item details for adding/updating a cart item
@@ -99,7 +99,7 @@ const validateCartItem = async (req, res, next) => {
     if (!product) {
         return res.status(404).json({ message: 'Product not found' });
     }
-    next(); // Proceed to the next middleware or route handler
+    next(); 
 };
 
 // Middleware to check if the cart belongs to the authenticated user
@@ -113,7 +113,7 @@ const isUserCart = async (req, res, next) => {
     if (cart.userId.toString() !== req.user.id) {
         return res.status(403).json({ message: 'This cart does not belong to the authenticated user' });
     }
-    next(); // Proceed to the next middleware or route handler
+    next(); 
 };
 
 module.exports = {
